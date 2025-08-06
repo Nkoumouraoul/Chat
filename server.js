@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
 
 // --- CORRECTION CRUCIALE POUR RENDER ---
 // Utiliser le port fourni par l'environnement de Render, ou 4000 par défaut en local.
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;// 3. On demande au serveur HTTP d'écouter sur le port, pas à Socket.IO directement.
 
 httpServer.listen(PORT, () => {
   console.log(`🚀 Serveur Socket.IO démarré et à l'écoute sur le port ${PORT}`);
