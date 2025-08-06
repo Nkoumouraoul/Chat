@@ -3,11 +3,23 @@
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
-const httpServer = createServer();
+// 1. On crée le serveur HTTP et on lui ajoute une logique de réponse.
+const httpServer = createServer((req, res) => {
+  // --- C'EST LA PARTIE À AJOUTER ---
+  // On répond aux "Health Checks" de Render.
+  // Si le chemin demandé est '/', on répond "OK".
+  if (req.url === "/" && req.method === "GET") {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("Health check OK");
+    return; // On s'arrête ici pour ne pas laisser la requête pendante.
+  }
+  // -------------------------------
+});
 
+// 2. On attache Socket.IO au serveur HTTP existant.
 const io = new Server(httpServer, {
   cors: {
-    origin: "*", // IMPORTANT : Pour commencer. Vous pourrez le restreindre plus tard.
+    origin: "*", 
     methods: ["GET", "POST"]
   }
 });
